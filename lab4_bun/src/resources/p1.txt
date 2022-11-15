@@ -1,0 +1,25 @@
+GO
+var n@Int;
+read(n);
+var isPrime@Bool = True;
+if n < 2{
+    isPrime = False;
+}
+elif n == 2{
+    isPrime = True;
+}
+elif n % 2 == 0{
+    isPrime = False;
+}    
+
+var d@Int = 3;
+
+loop d <= n/2 {
+    if n % d == 0{
+        isPrime = False;
+    }
+    d = d + 3;
+}
+
+isPrime = True;
+STOP
