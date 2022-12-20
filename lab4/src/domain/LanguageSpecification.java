@@ -89,18 +89,12 @@ public class LanguageSpecification {
     }
 
     public boolean isIdentifier(String token) {
-//        String pattern = "^[a-zA-Z]([a-z|A-Z|0-9|_])*$";
-//        return token.matches(pattern);
         return identifier.checkSequence(token);
     }
 
     public boolean isConstant(String token) {
-        String numericPattern = "^0|[+|-][1-9]([0-9])*|[1-9]([0-9])*|[+|-][1-9]([0-9])*\\.([0-9])*|[1-9]([0-9])*\\.([0-9])*$";
         String charPattern = "^\'[a-zA-Z0-9_?!#*./%+=<>;)(}{ ]\'";
         String stringPattern = "^\"[a-zA-Z0-9_?!#*./%+=<>;)(}{ ]+\"";
-//        return token.matches(numericPattern) ||
-//                token.matches(charPattern) ||
-//                token.matches(stringPattern);
         return integerConstant.checkSequence(token) || token.matches(charPattern) || token.matches(stringPattern);
     }
 

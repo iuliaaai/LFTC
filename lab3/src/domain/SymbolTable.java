@@ -55,22 +55,6 @@ public class SymbolTable {
         return new Pair<>(-1, -1);
     }
 
-//    public Integer getPosition(String token){
-//        if (this.contains(token)){
-//            int position = this.hash(token);
-//            int listIndex = 0;
-//            for(String el:this.items.get(position)) {
-//                if (!el.equals(token))
-//                    listIndex++;
-//                else
-//                    break;
-//            }
-//
-//            return position;
-//        }
-//        return -1;
-//    }
-
     public boolean remove(String key){
         int hashValue = hash(key);
 

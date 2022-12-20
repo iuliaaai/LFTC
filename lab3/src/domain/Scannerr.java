@@ -42,8 +42,9 @@ public class Scannerr {
 
             reader.close();
 
-            buildResult(pairs);
-            writeToFile();
+            if (buildResult(pairs)) {
+                writeToFile();
+            }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -150,7 +151,7 @@ public class Scannerr {
         return token.toString();
     }
 
-    public void buildResult(List<Pair<String, Integer>> tokens) {
+    public boolean buildResult(List<Pair<String, Integer>> tokens) {
         List<String> invalidTokens = new ArrayList<>();
         boolean lexicalError = false;
         for (Pair<String, Integer> tokenPair : tokens) {
@@ -175,7 +176,9 @@ public class Scannerr {
 
         if (!lexicalError) {
             System.out.println("The program is lexically correct");
+            return true;
         }
+        return false;
     }
 
     public void writeToFile() {
