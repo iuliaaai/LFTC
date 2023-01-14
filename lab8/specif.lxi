@@ -1,0 +1,84 @@
+%{ 	 
+	#include <stdio.h>
+	#include <string.h>
+	int lines = 0;
+%} 
+
+%option noyywrap
+%option caseless
+
+DIGIT 		[0-9]
+NON_ZERO_DIGIT [1-9]
+INT_CONSTANT [-]?{NON_ZERO_DIGIT}{DIGIT}*|0
+LETTER [a-zA-Z]
+STRING_CONSTANT ["|']({LETTER}|{DIGIT}|" ")*["|']
+IDENTIFIER {LETTER}({LETTER}|{DIGIT})*
+
+%%
+
+func {printf("Reserved word: %s\n", yytext);}
+Int	{printf( "Reserved word: %s\n", yytext);}
+String	{printf( "Reserved word: %s\n", yytext);}
+Bool	{printf( "Reserved word: %s\n", yytext);}
+Char	{printf( "Reserved word: %s\n", yytext);}
+if	{printf( "Reserved word: %s\n", yytext);}
+elif	{printf( "Reserved word: %s\n", yytext);}
+else	{printf( "Reserved word: %s\n", yytext);}
+let	{printf( "Reserved word: %s\n", yytext);}
+var	{printf( "Reserved word: %s\n", yytext);}
+ret	{printf( "Reserved word: %s\n", yytext);}
+True	{printf( "Reserved word: %s\n", yytext);}
+False	{printf( "Reserved word: %s\n", yytext);}
+read    {printf( "Reserved word: %s\n", yytext);}
+print    {printf( "Reserved word: %s\n", yytext);}
+loop    {printf( "Reserved word: %s\n", yytext);}
+GO      {printf( "Reserved word: %s\n", yytext);}
+STOP    {printf( "Reserved word: %s\n", yytext);}
+
+{IDENTIFIER}	{printf( "Identifier: %s\n", yytext );}
+{INT_CONSTANT}        {printf( "Constant: %s\n", yytext );}
+{STRING_CONSTANT}	{printf( "Constant: %s\n", yytext );}
+
+"@"	{printf( "Separator: %s\n", yytext );}
+"#"	{printf( "Separator: %s\n", yytext );}
+";"	{printf( "Separator: %s\n", yytext );}
+"'"	{printf( "Separator: %s\n", yytext );}
+"{"	{printf( "Separator: %s\n", yytext );}
+"}"	{printf( "Separator: %s\n", yytext );}
+"("	{printf( "Separator: %s\n", yytext );}
+")"	{printf( "Separator: %s\n", yytext );}
+"["	{printf( "Separator: %s\n", yytext );}
+"]"	{printf( "Separator: %s\n", yytext );}
+"+"	{printf( "Operator: %s\n", yytext );}
+"-"	{printf( "Operator: %s\n", yytext );}
+"*"	{printf( "Operator: %s\n", yytext );}
+"/"	{printf( "Operator: %s\n", yytext );}
+"<"	{printf( "Operator: %s\n", yytext );}
+">"	{printf( "Operator: %s\n", yytext );}
+"<="	{printf( "Operator: %s\n", yytext );}
+">="	{printf( "Operator: %s\n", yytext );}
+"!="	{printf( "Operator: %s\n", yytext );}
+"=="	{printf( "Operator: %s\n", yytext );}
+"="	{printf( "Separator: %s\n", yytext );}
+"!"	{printf( "Operator: %s\n", yytext );}
+"?:"	{printf( "Operator: %s\n", yytext );}
+"%"	{printf( "Operator: %s\n", yytext );}
+
+
+[ \t]+  	{}
+[\n]+ {lines++;}
+
+.             {printf("Error at token %s at line %d\n", yytext, lines); exit(1);}
+
+%% 
+
+int main(int argc, char **argv )
+{
+    ++argv, --argc;
+    if ( argc > 0 )
+    yyin = fopen( argv[0], "r" );
+    else
+     yyin = stdin;
+    yylex();
+}
+
