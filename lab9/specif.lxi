@@ -1,0 +1,74 @@
+%{ 	 
+	#include <stdio.h>
+	#include <string.h>
+	#include "y.tab.h"
+	int lines = 0;
+%} 
+
+%option noyywrap
+%option caseless
+
+DIGIT 		[0-9]
+NON_ZERO_DIGIT [1-9]
+INT_CONSTANT [-]?{NON_ZERO_DIGIT}{DIGIT}*|0
+LETTER [a-zA-Z]
+STRING_CONSTANT ["|']({LETTER}|{DIGIT}|" ")*["|']
+IDENTIFIER {LETTER}({LETTER}|{DIGIT})*
+
+%%
+
+func {printf("Reserved word: %s\n", yytext); return FUNC;}
+Int	{printf( "Reserved word: %s\n", yytext); return INT;}
+String	{printf( "Reserved word: %s\n", yytext); return STRING;}
+Bool	{printf( "Reserved word: %s\n", yytext); return BOOL;}
+Char	{printf( "Reserved word: %s\n", yytext); return CHAR;}
+if	{printf( "Reserved word: %s\n", yytext); return IF;}
+elif	{printf( "Reserved word: %s\n", yytext); return ELIF;}
+else	{printf( "Reserved word: %s\n", yytext); return ELSE;}
+let	{printf( "Reserved word: %s\n", yytext); return LET;}
+var	{printf( "Reserved word: %s\n", yytext); return VAR;}
+ret	{printf( "Reserved word: %s\n", yytext); return RET;}
+True	{printf( "Reserved word: %s\n", yytext); return TRUE;}
+False	{printf( "Reserved word: %s\n", yytext); return FALSE;}
+read    {printf( "Reserved word: %s\n", yytext); return READ;}
+print    {printf( "Reserved word: %s\n", yytext); return PRINT;}
+loop    {printf( "Reserved word: %s\n", yytext); return LOOP;}
+GO      {printf( "Reserved word: %s\n", yytext); return GO;}
+STOP    {printf( "Reserved word: %s\n", yytext); return STOP;}
+
+{IDENTIFIER}	{printf( "Identifier: %s\n", yytext ); return ID;}
+{INT_CONSTANT}        {printf( "Constant: %s\n", yytext ); return INT_CONST;}
+{STRING_CONSTANT}	{printf( "Constant: %s\n", yytext ); return STRING_CONST;}
+
+"@"	{printf( "Separator: %s\n", yytext ); return AT_SIGN;}
+"#"	{printf( "Separator: %s\n", yytext ); return HASHTAG;}
+";"	{printf( "Separator: %s\n", yytext ); return SEMI_COLON;}
+"'"	{printf( "Separator: %s\n", yytext ); return APOSTROPHE;}
+"{"	{printf( "Separator: %s\n", yytext ); return OPEN_CURLY_BRACKET;}
+"}"	{printf( "Separator: %s\n", yytext ); return CLOSED_CURLY_BRACKET;}
+"("	{printf( "Separator: %s\n", yytext ); return OPEN_ROUND_BRACKET;}
+")"	{printf( "Separator: %s\n", yytext ); return CLOSED_ROUND_BRACKET;}
+"["	{printf( "Separator: %s\n", yytext ); return OPEN_STRAIGHT_BRACKET;}
+"]"	{printf( "Separator: %s\n", yytext ); return CLOSED_STRAIGHT_BRACKET;}
+"+"	{printf( "Operator: %s\n", yytext ); return PLUS;}
+"-"	{printf( "Operator: %s\n", yytext ); return MINUS;}
+"*"	{printf( "Operator: %s\n", yytext ); return MUL;}
+"/"	{printf( "Operator: %s\n", yytext ); return DIV;}
+"<"	{printf( "Operator: %s\n", yytext ); return LESS;}
+">"	{printf( "Operator: %s\n", yytext ); return GREATER;}
+"<="	{printf( "Operator: %s\n", yytext ); return LESS_EQ;}
+">="	{printf( "Operator: %s\n", yytext ); return GREATER_EQ;}
+"!="	{printf( "Operator: %s\n", yytext ); return DIFF;}
+"=="	{printf( "Operator: %s\n", yytext ); return EQUAL;}
+"="	{printf( "Separator: %s\n", yytext ); return ATRIBUTION;}
+"!"	{printf( "Operator: %s\n", yytext ); return NEGATION;}
+"?:"	{printf( "Operator: %s\n", yytext ); return TERNARY_OP;}
+"%"	{printf( "Operator: %s\n", yytext ); return MOD;}
+
+
+[ \t]+  	{}
+[\n]+ {lines++;}
+
+.             {printf("Error at token %s at line %d\n", yytext, lines); return -1;}
+
+%%

@@ -1,0 +1,14 @@
+GO
+let count@Int = 0;
+let n@Int = 432567;
+
+loop n != 0 {
+    n = n / 10;
+    count = count + 1;
+}
+n = -3;
+print(count);
+if n < 2 {
+    print("yes");
+}
+STOP
